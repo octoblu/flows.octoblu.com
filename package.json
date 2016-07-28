@@ -1,6 +1,6 @@
 {
   "name": "flows",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "flows",
   "main": "index.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "redux": "^3.5.2",
     "redux-act": "^0.5.0",
     "redux-logger": "^2.6.1",
-    "redux-meshblu": "^1.0.3",
+    "redux-meshblu": "^1.0.4",
     "redux-thunk": "^2.1.0",
     "zooid-button": "^1.1.3",
     "zooid-card": "^1.1.0",
