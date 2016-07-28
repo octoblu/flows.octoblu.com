@@ -21,7 +21,7 @@ const FlowListItem = ({ flow }) => {
 
   return (
     <Card>
-      <DeviceIcon type={type} />
+      <DeviceIcon type={type} size="small" />
       <Link to={`/flows/${uuid}`}>{name}</Link>
       <div>{ online ? 'online' : 'offline' }</div>
 

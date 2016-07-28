@@ -61,7 +61,7 @@ describe('<FlowListItem />', () => {
 
     it('should render device icon', () => {
       expect(sut).to.contain(
-        <DeviceIcon type={flow.type} />
+        <DeviceIcon type={flow.type} size="small" />
       )
     })
   })

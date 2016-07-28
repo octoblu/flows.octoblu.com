@@ -17,7 +17,7 @@ export default ({ history }) => {
 
         <Route path="flows" component={FlowsLayout}>
           <IndexRoute component={FlowsIndex}/>
-          <Route path="/:flowUuid" component={FlowDetail} />
+          <Route path=":flowUuid" component={FlowDetail} />
         </Route>
       </Route>
 

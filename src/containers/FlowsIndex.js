@@ -3,6 +3,8 @@ import React, { PropTypes } from 'react'
 import { search } from 'redux-meshblu'
 import { connect } from 'react-redux'
 import Page from 'zooid-page'
+import Input from 'zooid-input'
+import Heading from 'zooid-heading'
 
 import FlowList from '../components/FlowList'
 import {getMeshbluConfig} from '../services/auth-service'
@@ -40,7 +42,14 @@ class FlowsIndex extends React.Component {
     if (error) return <Page error={error} />
     if (_.isEmpty(flows)) return <Page>You have no Flows</Page>
 
-    return <FlowList flows={flows} />
+    return (
+      <Page>
+        <Heading level={3}>My Flows</Heading>
+
+        <Input type="search" name="seachFlows" placeholder="Filter flows" />
+        <FlowList flows={flows} />
+      </Page>
+    )
   }
 }
 
@@ -56,14 +65,5 @@ const mapStateToProps = ({ flows }) => {
     fetching,
   }
 }
-//
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     onTodoClick: (id) => {
-//       dispatch(toggleTodo(id))
-//     }
-//   }
-// }
-
 
 export default connect(mapStateToProps)(FlowsIndex)
