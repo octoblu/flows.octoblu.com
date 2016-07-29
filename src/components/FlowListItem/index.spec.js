@@ -9,7 +9,9 @@ import Button from 'zooid-button'
 import DeviceIcon from 'zooid-device-icon'
 
 import { OCTOBLU_URL } from 'config'
+
 import FlowListItem from './'
+import DeviceOnlineIndicator from '../DeviceOnlineIndicator'
 
 chai.use(chaiEnzyme())
 chai.use(sinonChai)
@@ -43,10 +45,6 @@ describe('<FlowListItem />', () => {
       expect(sut).to.contain(<Link to={`/flows/${flow.uuid}`}>Flow 007</Link>)
     })
 
-    it('should render flow online status', () => {
-      expect(sut).to.contain(<div>online</div>)
-    })
-
     it('should render Design link', () => {
       expect(sut).to.contain(
         <Button
@@ -59,10 +57,8 @@ describe('<FlowListItem />', () => {
       )
     })
 
-    it('should render device icon', () => {
-      expect(sut).to.contain(
-        <DeviceIcon type={flow.type} size="small" />
-      )
+    it('should render flow online status', () => {
+      expect(sut).to.contain(<DeviceOnlineIndicator online />)
     })
   })
 })

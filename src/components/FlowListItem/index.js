@@ -3,9 +3,11 @@ import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import Button from 'zooid-button'
 import Card from 'zooid-card'
-import DeviceIcon from 'zooid-device-icon'
-
 import {OCTOBLU_URL} from 'config'
+
+import DeviceOnlineIndicator from '../DeviceOnlineIndicator'
+
+import styles from './styles.css'
 
 const propTypes = {
   flow: PropTypes.object,
@@ -17,13 +19,14 @@ const defaultProps = {
 const FlowListItem = ({ flow }) => {
   if (_.isEmpty(flow)) return null
 
-  const { uuid, name, online, type } = flow
+  const { uuid, name, online } = flow
 
   return (
-    <Card>
-      <DeviceIcon type={type} size="small" />
-      <Link to={`/flows/${uuid}`}>{name}</Link>
-      <div>{ online ? 'online' : 'offline' }</div>
+    <Card className={styles.flowCard}>
+      <header className={styles.header}>
+        <Link to={`/flows/${uuid}`}>{name}</Link>
+        <DeviceOnlineIndicator online={online} />
+      </header>
 
       <Button
         href={`${OCTOBLU_URL}/design/${uuid}`}

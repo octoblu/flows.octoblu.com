@@ -1,4 +1,7 @@
+import { createReducer } from 'redux-act'
 import { searchActions } from 'redux-meshblu'
+
+const { searchRequest, searchSuccess, searchFailure } = searchActions
 
 const initialState = {
   devices: null,
@@ -6,19 +9,9 @@ const initialState = {
   fetching: false,
 }
 
-export default function types(state = initialState, action) {
-  switch (action.type) {
 
-    case searchActions.searchRequest.getType():
-      return { ...state, fetching: true }
-
-    case searchActions.searchSuccess.getType():
-      return { ...state, devices: action.payload, fetching: false }
-
-    case searchActions.searchFailure.getType():
-      return { ...state, error: action.payload, fetching: false }
-
-    default:
-      return state
-  }
-}
+export default createReducer({
+  [searchRequest]: () => ({...initialState, fetching: true}),
+  [searchSuccess]: (state, payload) => ({...initialState, devices: payload, fetching: false}),
+  [searchFailure]: (state, payload) => ({...initialState, error: payload, fetching: false}),
+}, initialState)

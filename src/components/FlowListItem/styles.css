@@ -1,0 +1,14 @@
+.flowCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #EAEDEF;
+  width: 250px;
+  height: 200px;
+  padding: 0;
+  box-shadow: none;
+}
+
+.header {
+  padding: 1em;
+}

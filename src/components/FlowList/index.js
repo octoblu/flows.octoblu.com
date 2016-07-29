@@ -1,6 +1,9 @@
-import React, { PropTypes } from 'react'
 import _ from 'lodash'
+import React, { PropTypes } from 'react'
+
+import styles from './styles.css'
 import FlowListItem from '../FlowListItem/'
+
 const propTypes = {
   flows: PropTypes.array
 }
@@ -14,7 +17,7 @@ const FlowList = ({flows}) => {
 
   const flowItems = _.map(flows, flow => <FlowListItem flow={flow} key={flow.uuid} />)
 
-  return(<div>{flowItems}</div>)
+  return <div className={styles.flowList}>{flowItems}</div>
 }
 
 FlowList.propTypes    = propTypes

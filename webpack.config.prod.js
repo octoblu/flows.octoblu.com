@@ -40,11 +40,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: [
-          path.join(__dirname, 'src'),
-          path.join(__dirname, 'node_modules')
-        ],
-        loader: 'style-loader!css-loader?-autoprefixer!postcss-loader'
+        include: path.join(__dirname, 'node_modules'),
+        loader: 'style-loader!css-loader!postcss-loader'
+      },
+      {
+        test:   /\.css$/,
+        loader: 'style-loader!css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]&importLoaders=1!postcss-loader',
+        include: path.join(__dirname, 'src')
       },
       {
         test: /\.json$/,

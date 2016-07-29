@@ -2,9 +2,11 @@ import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import { search } from 'redux-meshblu'
 import { connect } from 'react-redux'
-import Page from 'zooid-page'
+import View from 'react-flexbox'
+import DeviceIcon from 'zooid-device-icon'
 import Input from 'zooid-input'
 import Heading from 'zooid-heading'
+import Page from 'zooid-page'
 
 import FlowList from '../components/FlowList'
 import {getMeshbluConfig} from '../services/auth-service'
@@ -43,11 +45,21 @@ class FlowsIndex extends React.Component {
     if (_.isEmpty(flows)) return <Page>You have no Flows</Page>
 
     return (
-      <Page>
-        <Heading level={3}>My Flows</Heading>
+      <Page width="medium">
+        <View row>
+          <div>
+            <Input type="search" name="seachFlows" placeholder="Filter flows" />
+          </div>
 
-        <Input type="search" name="seachFlows" placeholder="Filter flows" />
-        <FlowList flows={flows} />
+          <Page>
+            <Heading level={3}>
+              <DeviceIcon type="octoblu:flow" size="small" />
+              My Flows
+            </Heading>
+
+            <FlowList flows={flows} />
+          </Page>
+        </View>
       </Page>
     )
   }

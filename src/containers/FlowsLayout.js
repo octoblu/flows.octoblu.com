@@ -16,7 +16,6 @@ class Flows extends React.Component {
   render() {
     return (
       <div>
-        Flows Layout
         {this.props.children}
       </div>
     )
