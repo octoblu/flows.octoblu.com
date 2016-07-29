@@ -1,17 +1,16 @@
 import chai, { expect } from 'chai'
 import chaiEnzyme from 'chai-enzyme'
-import { mount, shallow } from 'enzyme'
+import { shallow } from 'enzyme'
 import React from 'react'
 import { Link } from 'react-router'
-import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import Button from 'zooid-button'
-import DeviceIcon from 'zooid-device-icon'
 
 import { OCTOBLU_URL } from 'config'
 
 import FlowListItem from './'
 import DeviceOnlineIndicator from '../DeviceOnlineIndicator'
+import FlowTags from '../FlowTags'
 
 chai.use(chaiEnzyme())
 chai.use(sinonChai)
@@ -37,6 +36,34 @@ describe('<FlowListItem />', () => {
         flow: {
           description: 'lorem description',
         },
+        draft: {
+          nodes: [
+            {
+              category: 'device',
+              type: 'device:blink1',
+            },
+            {
+              category: 'device',
+              type: 'device:blink1',
+            },
+            {
+              category: 'operation',
+              type: 'operation:interval',
+            },
+            {
+              type: 'operation:delay',
+              category: 'operation',
+            },
+            {
+              type: 'operation:delay',
+              category: 'operation',
+            },
+            {
+              category: 'device',
+              type: 'device:blink1',
+            }
+          ]
+        }
       }
       sut = shallow(<FlowListItem flow={flow} />)
     })
@@ -59,6 +86,10 @@ describe('<FlowListItem />', () => {
 
     it('should render flow online status', () => {
       expect(sut).to.contain(<DeviceOnlineIndicator online />)
+    })
+
+    it('should render tags for the flow', () => {
+      expect(sut).to.contain(<FlowTags nodes={flow.draft.nodes} />)
     })
   })
 })

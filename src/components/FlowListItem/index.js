@@ -6,6 +6,7 @@ import Card from 'zooid-card'
 import {OCTOBLU_URL} from 'config'
 
 import DeviceOnlineIndicator from '../DeviceOnlineIndicator'
+import FlowTags from '../FlowTags'
 
 import styles from './styles.css'
 
@@ -19,7 +20,7 @@ const defaultProps = {
 const FlowListItem = ({ flow }) => {
   if (_.isEmpty(flow)) return null
 
-  const { uuid, name, online } = flow
+  const { draft, name, online, uuid } = flow
 
   return (
     <Card className={styles.flowCard}>
@@ -27,6 +28,11 @@ const FlowListItem = ({ flow }) => {
         <Link to={`/flows/${uuid}`}>{name}</Link>
         <DeviceOnlineIndicator online={online} />
       </header>
+
+
+      <div className={styles.tags}>
+        <FlowTags nodes={draft.nodes} />
+      </div>
 
       <Button
         href={`${OCTOBLU_URL}/design/${uuid}`}
