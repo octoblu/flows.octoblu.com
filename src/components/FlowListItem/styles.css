@@ -7,12 +7,32 @@
   height: 200px;
   padding: 0;
   box-shadow: none;
+  position: relative;
 }
 
 .header {
   padding: 1em;
+  max-width: 190px;
 }
 
 .tags {
   padding: 1em;
+}
+
+.flowMenuWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.flowMenu {
+  position: absolute;
+  top: 40px;
+  right: 22px;
+}
+
+.flowMenuButton {
+  position: absolute;
+  top:0;
+  right: 0;
 }

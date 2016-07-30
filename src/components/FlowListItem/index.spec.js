@@ -68,6 +68,10 @@ describe('<FlowListItem />', () => {
       sut = shallow(<FlowListItem flow={flow} />)
     })
 
+    it('should set isMenuVisible state to false', () => {
+      expect(sut).to.have.state('isMenuVisible', false)
+    })
+
     it('should render a detail link', () => {
       expect(sut).to.contain(<Link to={`/flows/${flow.uuid}`}>Flow 007</Link>)
     })
@@ -90,6 +94,14 @@ describe('<FlowListItem />', () => {
 
     it('should render tags for the flow', () => {
       expect(sut).to.contain(<FlowTags nodes={flow.draft.nodes} />)
+    })
+
+    describe('when revealMenuButton is clicked', () => {
+      it('should update isMenuVisible state to true', () => {
+        const revealMenuButton = sut.find('[name="revealMenuButton"]')
+        revealMenuButton.simulate('click')
+        expect(sut).to.have.state('isMenuVisible', true)
+      })
     })
   })
 })
