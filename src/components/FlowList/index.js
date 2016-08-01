@@ -5,17 +5,25 @@ import styles from './styles.css'
 import FlowListItem from '../FlowListItem/'
 
 const propTypes = {
-  flows: PropTypes.array
+  flows: PropTypes.array,
+  onDeleteFlow: PropTypes.func,
 }
 
 const defaultProps = {
-  flows: []
+  flows: [],
+  onDeleteFlow: _.noop,
 }
 
-const FlowList = ({flows}) => {
+const FlowList = ({flows, onDeleteFlow}) => {
+  console.log('RENDER');
   if(_.isEmpty(flows)) return null
 
-  const flowItems = _.map(flows, flow => <FlowListItem flow={flow} key={flow.uuid} />)
+  const flowItems = _.map(flows, flow => {
+    console.log('Flow', flow.uuid, flow.deleting)
+    if (flow.deleting) return null
+
+    return <FlowListItem flow={flow} key={flow.uuid} onDeleteFlow={onDeleteFlow}/>
+  })
 
   return <div className={styles.flowList}>{flowItems}</div>
 }

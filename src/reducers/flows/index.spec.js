@@ -1,6 +1,11 @@
 import { expect } from 'chai'
 import { searchActions } from 'redux-meshblu'
 
+import {
+  deleteFlowRequest,
+  deleteFlowSuccess,
+  deleteFlowFailure
+} from '../../actions/deleteFlow/'
 import reducer from './'
 
 describe('Flows Reducer', () => {
@@ -8,6 +13,7 @@ describe('Flows Reducer', () => {
     devices: null,
     error: null,
     fetching: false,
+    deleting: [],
   }
 
   it('should return the initial state', () => {
@@ -39,5 +45,44 @@ describe('Flows Reducer', () => {
       type: searchActions.searchFailure.getType(),
       payload: new Error('Bang!')
     })).to.deep.equal({...initialState, error: new Error('Bang!') })
+  })
+
+
+  describe('deleteFlow', () => {
+    it('should handle deleteFlowRequest', () => {
+      expect(reducer(undefined, {
+        type: deleteFlowRequest.getType(),
+        payload: 'fancy-uuid'
+      })).to.deep.equal({...initialState, deleting: ['fancy-uuid']})
+    })
+
+    it('should handle deleteFlowFailure', () => {
+      expect(reducer({...initialState, deleting: ['fancy-uuid', 'another-uuid']}, {
+        type: deleteFlowFailure.getType(),
+        payload: 'fancy-uuid'
+      })).to.deep.equal({...initialState, deleting: ['another-uuid'], error: new Error('Could not delete flow - fancy-uuid')})
+    })
+
+    it('should handle deleteFlowSuccess', () => {
+      expect(reducer({
+        ...initialState,
+        deleting: ['fancy-uuid', 'another-uuid'],
+        devices: [
+          { uuid: 'one-uuid' },
+          { uuid: 'fancy-uuid' },
+          { uuid: 'another-uuid' },
+        ]
+      }, {
+        type: deleteFlowSuccess.getType(),
+        payload: 'fancy-uuid'
+      })).to.deep.equal({
+        ...initialState,
+        deleting: ['another-uuid'],
+        devices:[
+          { uuid: 'one-uuid' },
+          { uuid: 'another-uuid' },
+        ]})
+    })
+
   })
 })

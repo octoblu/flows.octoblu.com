@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import chai, { expect } from 'chai'
 import chaiEnzyme from 'chai-enzyme'
 import React from 'react'
@@ -32,7 +33,7 @@ describe('<FlowList />', () => {
     it('should render a FlowListItem for each Flows', () => {
       const sut = shallow(<FlowList flows={flows} />)
       flows.forEach((flow) => {
-        expect(sut).to.contain(<FlowListItem flow={flow} />)
+        expect(sut).to.contain(<FlowListItem flow={flow} onDeleteFlow={_.noop}/>)
       })
     })
   })

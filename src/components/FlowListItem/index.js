@@ -16,10 +16,12 @@ class FlowListItem extends React.Component {
 
   static propTypes = {
     flow: PropTypes.object,
+    onDeleteFlow: PropTypes.func,
   }
 
   static defaultProps = {
     flow: null,
+    onDeleteFlow: _.noop,
   }
 
   state = {
@@ -30,6 +32,11 @@ class FlowListItem extends React.Component {
     this.setState({
       isMenuVisible: !this.state.isMenuVisible,
     })
+  }
+
+  handleDelete = () => {
+    const { flow, onDeleteFlow } = this.props
+    onDeleteFlow(flow.uuid)
   }
 
   render() {
@@ -64,12 +71,15 @@ class FlowListItem extends React.Component {
           >
             <Button kind="no-style" size="small">Share</Button>
             <Button kind="no-style" size="small">Publish IoT App</Button>
-            <Button kind="no-style" size="small">Delete</Button>
+            <Button kind="no-style" size="small" onClick={this.handleDelete}>Delete</Button>
           </FlowMenu>
         </div>
 
         <div className={styles.tags}>
-          <FlowTags nodes={draft.nodes} />
+          {
+            draft &&
+            <FlowTags nodes={draft.nodes} />
+          }
         </div>
 
         <Button

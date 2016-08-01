@@ -9,6 +9,7 @@ import Heading from 'zooid-heading'
 import Page from 'zooid-page'
 
 import FlowList from '../components/FlowList'
+import deleteFlow from '../actions/deleteFlow'
 import {getMeshbluConfig} from '../services/auth-service'
 
 const propTypes = {
@@ -16,6 +17,7 @@ const propTypes = {
   error: PropTypes.object,
   fetching: PropTypes.bool,
   flows: PropTypes.array,
+  onDeleteFlow: PropTypes.func,
 }
 
 const defaultProps = {}
@@ -34,11 +36,11 @@ class FlowsIndex extends React.Component {
       owner: meshbluConfig.uuid,
     }
 
-    this.props.dispatch(search({query}, meshbluConfig))
+    this.props.search({query}, meshbluConfig)
   }
 
   render() {
-    const { flows, error, fetching } = this.props
+    const { flows, error, fetching, onDeleteFlow } = this.props
 
     if (fetching) return <Page loading />
     if (error) return <Page error={error} />
@@ -57,7 +59,7 @@ class FlowsIndex extends React.Component {
               My Flows
             </Heading>
 
-            <FlowList flows={flows} />
+            <FlowList flows={flows} onDeleteFlow={onDeleteFlow}/>
           </Page>
         </View>
       </Page>
@@ -78,4 +80,15 @@ const mapStateToProps = ({ flows }) => {
   }
 }
 
-export default connect(mapStateToProps)(FlowsIndex)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onDeleteFlow: (uuid) => {
+      dispatch(deleteFlow(uuid))
+    },
+    search: (query, meshbluConfig) => {
+      dispatch(search(query, meshbluConfig))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FlowsIndex)
