@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import Button from 'zooid-button'
 import DeviceIcon from 'zooid-device-icon'
@@ -5,10 +6,15 @@ import Heading from 'zooid-heading'
 
 import styles from './styles.css'
 
-const propTypes = {}
-const defaultProps = {}
+const propTypes = {
+  onCreateFlow: PropTypes.func,
+}
 
-const FlowIndexHeader = () => {
+const defaultProps = {
+  onCreateFlow: _.noop,
+}
+
+const FlowIndexHeader = ({ onCreateFlow }) => {
   return (
     <Heading level={3} className={styles.root}>
       <div className={styles.headerTextWrap}>
@@ -16,7 +22,7 @@ const FlowIndexHeader = () => {
         Flows
       </div>
 
-      <Button kind="primary">Add a Flow</Button>
+      <Button onClick={onCreateFlow} kind="primary" name="createFlow">Add a Flow</Button>
     </Heading>
   )
 }

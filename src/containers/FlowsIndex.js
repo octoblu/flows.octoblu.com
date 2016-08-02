@@ -6,6 +6,7 @@ import View from 'react-flexbox'
 import Page from 'zooid-page'
 
 import deleteFlow from '../actions/deleteFlow'
+import createFlow from '../actions/createFlow'
 import FlowList from '../components/FlowList'
 import FlowIndexHeader from '../components/FlowIndexHeader'
 import FlowIndexSidebar from '../components/FlowIndexSidebar'
@@ -16,6 +17,7 @@ const propTypes = {
   error: PropTypes.object,
   fetching: PropTypes.bool,
   flows: PropTypes.array,
+  onCreateFlow: PropTypes.func,
   onDeleteFlow: PropTypes.func,
   search: PropTypes.func,
 }
@@ -40,7 +42,7 @@ class FlowsIndex extends React.Component {
   }
 
   render() {
-    const { flows, error, fetching, onDeleteFlow } = this.props
+    const { flows, error, fetching, onCreateFlow, onDeleteFlow } = this.props
 
     if (fetching) return <Page loading />
     if (error) return <Page error={error} />
@@ -49,11 +51,11 @@ class FlowsIndex extends React.Component {
     return (
       <Page>
         <View column>
-          <FlowIndexHeader />
+          <FlowIndexHeader onCreateFlow={onCreateFlow} />
 
           <View row>
-            <FlowIndexSidebar />
             <FlowList flows={flows} onDeleteFlow={onDeleteFlow}/>
+            <FlowIndexSidebar />
           </View>
         </View>
       </Page>
@@ -79,6 +81,7 @@ const mapDispatchToProps = (dispatch) => {
     onDeleteFlow: (uuid) => {
       dispatch(deleteFlow(uuid))
     },
+    onCreateFlow: () => dispatch(createFlow()),
     search: (query, meshbluConfig) => {
       dispatch(search(query, meshbluConfig))
     }

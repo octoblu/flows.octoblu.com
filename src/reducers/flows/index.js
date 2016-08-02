@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { createReducer } from 'redux-act'
 import { searchActions } from 'redux-meshblu'
+import { createFlowRequest, createFlowSuccess, createFlowFailure } from '../../actions/createFlow/'
 import { deleteFlowRequest, deleteFlowSuccess, deleteFlowFailure } from '../../actions/deleteFlow/'
 
 const { searchRequest, searchSuccess, searchFailure } = searchActions
@@ -14,6 +15,12 @@ const initialState = {
 
 
 export default createReducer({
+  [createFlowRequest]: (state) => {
+    return { ...state, creating: true }
+  },
+  [createFlowSuccess]: (state) => {
+    return { ...state, creating: false}
+  },
   [deleteFlowRequest]: (state, payload) => {
     const { deleting } = state
     const deletingList = [ ...deleting, payload ]

@@ -2,10 +2,16 @@ import { expect } from 'chai'
 import { searchActions } from 'redux-meshblu'
 
 import {
+  createFlowRequest,
+  createFlowSuccess,
+  createFlowFailure
+} from '../../actions/createFlow/'
+import {
   deleteFlowRequest,
   deleteFlowSuccess,
   deleteFlowFailure
 } from '../../actions/deleteFlow/'
+
 import reducer from './'
 
 describe('Flows Reducer', () => {
@@ -47,6 +53,19 @@ describe('Flows Reducer', () => {
     })).to.deep.equal({...initialState, error: new Error('Bang!') })
   })
 
+  describe('createFlow', () => {
+    it('should handle createFlowRequest', () => {
+      expect(
+        reducer(undefined, { type: createFlowRequest })
+      ).to.deep.equal({ ...initialState, creating: true })
+    })
+
+    it('should handle createFlowSuccess', () => {
+      expect(
+        reducer({ ...initialState, creating: true }, { type: createFlowSuccess })
+      ).to.deep.equal({ ...initialState, creating: false })
+    })
+  })
 
   describe('deleteFlow', () => {
     it('should handle deleteFlowRequest', () => {

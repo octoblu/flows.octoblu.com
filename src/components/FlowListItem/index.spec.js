@@ -72,19 +72,13 @@ describe('<FlowListItem />', () => {
       expect(sut).to.have.state('isMenuVisible', false)
     })
 
-    it('should render a detail link', () => {
-      expect(sut).to.contain(<Link to={`/flows/${flow.uuid}`}>Flow 007</Link>)
+    it('should render a share button', () => {
+      expect(sut).to.contain(<Button kind="hollow-neutral" size="small">Share</Button>)
     })
 
     it('should render Design link', () => {
       expect(sut).to.contain(
-        <Button
-          href={`${OCTOBLU_URL}/design/${flow.uuid}`}
-          size="small"
-          kind="hollow-neutral"
-        >
-          Design
-        </Button>
+        <a href={`${OCTOBLU_URL}/design/${flow.uuid}`}>Flow 007</a>
       )
     })
 

@@ -49,7 +49,7 @@ class FlowListItem extends React.Component {
       <div className={styles.flowCard}>
         <header className={styles.header}>
           <div className={styles.nameWrapper}>
-            <Link to={`${OCTOBLU_URL}/design/${uuid}`}>{name || `Flow ${_.first(uuid.split('-'))}`}</Link>
+            <a href={`${OCTOBLU_URL}/design/${uuid}`}>{name || `Flow ${_.first(uuid.split('-'))}`}</a>
             <DeviceOnlineIndicator online={online} />
           </div>
 
