@@ -1,0 +1,14 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerTextWrap {
+  display: flex;
+  align-items: center;
+}
+
+.headerTextWrap > * {
+  margin-right: 0.5em;
+}

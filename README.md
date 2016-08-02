@@ -5,18 +5,17 @@
 [![Code Climate](https://codeclimate.com/github/octoblu/flows.png)](https://codeclimate.com/github/octoblu/flows)
 [![Slack Status](http://community-slack.octoblu.com/badge.svg)](http://community-slack.octoblu.com)
 
-## Install
-```
-npm install --save flows
-```
+## Design Doc
+- Actions
+  - Design
+  - Create Bluprint
+  - Detail
+  - Delete
+  - Online State Online/Offline
 
-## Props
-| Prop      | Type   | Default | Description                          |
-| ----------| -------| --------| -------------------------------------|
-| className | string |         | Additional css classes to merge into the component |
-
-
-## Example
-```js
-import Flows from 'flows'
-```
+- Display
+  - Flow Count - (All (34), Online (2), Offline (32))
+  - Name?
+  - state
+  - Things
+  - Description ()

@@ -3,14 +3,13 @@ import React, { PropTypes } from 'react'
 import { search } from 'redux-meshblu'
 import { connect } from 'react-redux'
 import View from 'react-flexbox'
-import DeviceIcon from 'zooid-device-icon'
-import Input from 'zooid-input'
-import Heading from 'zooid-heading'
 import Page from 'zooid-page'
 
-import FlowList from '../components/FlowList'
 import deleteFlow from '../actions/deleteFlow'
-import {getMeshbluConfig} from '../services/auth-service'
+import FlowList from '../components/FlowList'
+import FlowIndexHeader from '../components/FlowIndexHeader'
+import FlowIndexSidebar from '../components/FlowIndexSidebar'
+import { getMeshbluConfig } from '../services/auth-service'
 
 const propTypes = {
   dispatch: PropTypes.func,
@@ -18,6 +17,7 @@ const propTypes = {
   fetching: PropTypes.bool,
   flows: PropTypes.array,
   onDeleteFlow: PropTypes.func,
+  search: PropTypes.func,
 }
 
 const defaultProps = {}
@@ -47,20 +47,14 @@ class FlowsIndex extends React.Component {
     if (_.isEmpty(flows)) return <Page>You have no Flows</Page>
 
     return (
-      <Page width="medium">
-        <View row>
-          <div>
-            <Input type="search" name="seachFlows" placeholder="Filter flows" />
-          </div>
+      <Page>
+        <View column>
+          <FlowIndexHeader />
 
-          <Page>
-            <Heading level={3}>
-              <DeviceIcon type="octoblu:flow" size="small" />
-              My Flows
-            </Heading>
-
+          <View row>
+            <FlowIndexSidebar />
             <FlowList flows={flows} onDeleteFlow={onDeleteFlow}/>
-          </Page>
+          </View>
         </View>
       </Page>
     )

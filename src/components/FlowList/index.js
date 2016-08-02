@@ -15,11 +15,9 @@ const defaultProps = {
 }
 
 const FlowList = ({flows, onDeleteFlow}) => {
-  console.log('RENDER');
   if(_.isEmpty(flows)) return null
 
   const flowItems = _.map(flows, flow => {
-    console.log('Flow', flow.uuid, flow.deleting)
     if (flow.deleting) return null
 
     return <FlowListItem flow={flow} key={flow.uuid} onDeleteFlow={onDeleteFlow}/>
