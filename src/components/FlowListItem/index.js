@@ -2,7 +2,6 @@ import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import Button from 'zooid-button'
-import Card from 'zooid-card'
 import {OCTOBLU_URL} from 'config'
 import RevealMenuIcon from 'react-icons/lib/md/more-vert'
 
@@ -47,49 +46,47 @@ class FlowListItem extends React.Component {
     const { draft, name, online, uuid } = flow
 
     return (
-      <Card className={styles.flowCard}>
+      <div className={styles.flowCard}>
         <header className={styles.header}>
-          <Link to={`/flows/${uuid}`}>{name || `Flow ${_.first(uuid.split('-'))}`}</Link>
-          <DeviceOnlineIndicator online={online} />
+          <div className={styles.nameWrapper}>
+            <Link to={`${OCTOBLU_URL}/design/${uuid}`}>{name || `Flow ${_.first(uuid.split('-'))}`}</Link>
+            <DeviceOnlineIndicator online={online} />
+          </div>
+
+          <div className={styles.actions}>
+            <Button kind="hollow-neutral" size="small">Share</Button>
+            <Button
+              kind="hollow-neutral"
+              onClick={this.toggleMenuVisibility}
+              name="revealMenuButton"
+              size="small"
+            >
+              More
+            </Button>
+
+            <FlowMenu
+              visible={isMenuVisible}
+              onClickOutside={this.toggleMenuVisibility}
+              className={styles.flowMenu}
+            >
+              <Button kind="no-style">View Detail</Button>
+              <Button kind="no-style">Publish IoT App</Button>
+              <Button kind="no-style" onClick={this.handleDelete}>Delete</Button>
+            </FlowMenu>
+          </div>
         </header>
 
-        <div className={styles.flowMenuWrapper}>
+        {
+          draft &&
+          (
+            <div>
+              <div>{draft.description}</div>
+              <FlowTags nodes={draft.nodes} />
+            </div>
+          )
 
-          <Button
-            kind="no-style"
-            onClick={this.toggleMenuVisibility}
-            name="revealMenuButton"
-            className={styles.flowMenuButton}
-          >
-            <RevealMenuIcon />
-          </Button>
-
-          <FlowMenu
-            visible={isMenuVisible}
-            onClickOutside={this.toggleMenuVisibility}
-            className={styles.flowMenu}
-          >
-            <Button kind="no-style" size="small">Share</Button>
-            <Button kind="no-style" size="small">Publish IoT App</Button>
-            <Button kind="no-style" size="small" onClick={this.handleDelete}>Delete</Button>
-          </FlowMenu>
-        </div>
-
-        <div className={styles.tags}>
-          {
-            draft &&
-            <FlowTags nodes={draft.nodes} />
-          }
-        </div>
-
-        <Button
-          href={`${OCTOBLU_URL}/design/${uuid}`}
-          kind="hollow-neutral"
-          size="small"
-        >
-          Design
-        </Button>
-      </Card>
+        }
+      </div>
     )
   }
 }

@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #EAEDEF;
+  border-bottom: 1px solid #EAEDEF;
+  background: #FFF;
   width: 100%;
   padding: 0;
   box-shadow: none;
@@ -10,28 +11,26 @@
 }
 
 .header {
+  display: flex;
+  align-items:flex-start;
+  justify-content: space-between;
   padding: 1em;
-  max-width: 190px;
+}
+
+.nameWrapper {
+  flex: 1;
+}
+
+.actions > * {
+  margin-left: 0.5em;
 }
 
 .tags {
   padding: 1em;
 }
 
-.flowMenuWrapper {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
 .flowMenu {
   position: absolute;
-  top: 40px;
-  right: 22px;
-}
-
-.flowMenuButton {
-  position: absolute;
-  top:0;
-  right: 0;
+  top: 54px;
+  right: 15px;
 }

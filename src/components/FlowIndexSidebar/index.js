@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import Button from 'zooid-button'
+import Link from 'zooid-button'
 import Input from 'zooid-input'
 
 import styles from './styles.css'
@@ -12,10 +12,10 @@ const FlowIndexSidebar = () => {
     <div className={styles.root}>
       <Input type="search" name="seachFlows" placeholder="Search..." />
 
-      <div>
-        <Button kind="no-style">All Flows</Button>
-        <Button kind="no-style">Online</Button>
-        <Button kind="no-style">Offline</Button>
+      <div className={styles.filters}>
+        <Link to="/flows" className={styles.filter}>All Flows</Link>
+        <Link to="?filter=online" className={styles.filter}>Online</Link>
+        <Link to="?filter=offline" className={styles.filter}>Offline</Link>
       </div>
     </div>
   )

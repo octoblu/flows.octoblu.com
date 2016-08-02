@@ -1,10 +1,11 @@
 .menu {
   width: 150px;
   background: #FFF;
-  border: 1px solid rgba(0,0,0,0.15);
-  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 2px;
   box-shadow: 0 3px 12px rgba(0,0,0,0.15);
   transition: all .2s ease-in;
+  z-index: 10;
 }
 
 .menu > * {
@@ -14,7 +15,9 @@
 }
 
 .menu > *:hover {
-  background: rgba(232, 243, 252, 0.36);
+  /*background: rgba(232, 243, 252, 0.36);*/
+  background: #14568F;
+  color: #FFF
 }
 
 .menu > *:last-child {
