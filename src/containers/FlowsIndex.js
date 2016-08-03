@@ -18,6 +18,7 @@ const propTypes = {
   error: PropTypes.object,
   fetching: PropTypes.bool,
   flows: PropTypes.array,
+  location: PropTypes.object,
   onCreateFlow: PropTypes.func,
   onDeleteFlow: PropTypes.func,
   search: PropTypes.func,
@@ -34,16 +35,24 @@ class FlowsIndex extends React.Component {
 
   componentDidMount() {
     const meshbluConfig = getMeshbluConfig()
-    const query = {
+    const searchQuery = {
       type: 'octoblu:flow',
       owner: meshbluConfig.uuid,
     }
 
-    this.props.search({query}, meshbluConfig)
+    this.props.search({searchQuery}, meshbluConfig)
   }
 
   render() {
-    const { creating, error, fetching, flows, onCreateFlow, onDeleteFlow } = this.props
+    const {
+      creating,
+      error,
+      fetching,
+      flows,
+      location: { query },
+      onCreateFlow,
+      onDeleteFlow,
+    } = this.props
 
     if (fetching) return <Page loading />
     if (error) return <Page error={error} />
@@ -56,7 +65,7 @@ class FlowsIndex extends React.Component {
 
           <View row>
             <FlowList flows={flows} onDeleteFlow={onDeleteFlow}/>
-            <FlowIndexSidebar />
+            <FlowIndexSidebar filteringFlows={!!query.online} />
           </View>
         </View>
       </Page>
@@ -67,8 +76,13 @@ class FlowsIndex extends React.Component {
 FlowsIndex.propTypes    = propTypes
 FlowsIndex.defaultProps = defaultProps
 
-const mapStateToProps = ({ flows }) => {
-  const { creating, devices, error, fetching } = flows
+const mapStateToProps = ({ flows }, props) => {
+  const {location: { query }} = props
+  let { creating, devices, error, fetching } = flows
+
+  if (query.online) {
+    devices = _.filter(devices, {'online': (query.online === 'true')})
+  }
 
   return {
     creating,

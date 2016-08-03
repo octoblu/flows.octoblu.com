@@ -14,6 +14,17 @@
   border-left: 2px solid transparent;
   background: transparent;
   color: #485264;
+  border-radius: 2px;
+  padding: 0.6em 1em;
+  font-size: 15px;
+  font-family: "citrixsans-regular", Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition-delay: 0;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in;
+  transition-property: background, border-color;
 }
 
 .filter:hover {
@@ -22,7 +33,7 @@
   color: #485264;
 }
 
-.filter:first-child {
+.activeFilter {
   border-color: #14568F;
   color: #14568F;
 }
