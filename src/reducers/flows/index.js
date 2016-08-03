@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import { createReducer } from 'redux-act'
 import { searchActions } from 'redux-meshblu'
-import { createFlowRequest, createFlowSuccess, createFlowFailure } from '../../actions/createFlow/'
-import { deleteFlowRequest, deleteFlowSuccess, deleteFlowFailure } from '../../actions/deleteFlow/'
+import { createFlowRequest, createFlowSuccess, createFlowFailure } from '../../actions/create-flow/'
+import { deleteFlowRequest, deleteFlowSuccess, deleteFlowFailure } from '../../actions/delete-flow/'
 
 const { searchRequest, searchSuccess, searchFailure } = searchActions
 
@@ -13,13 +13,17 @@ const initialState = {
   deleting: [],
 }
 
-
 export default createReducer({
   [createFlowRequest]: (state) => {
-    return { ...state, creating: true }
+    return { ...state, creating: true, error: null }
   },
-  [createFlowSuccess]: (state) => {
-    return { ...state, creating: false}
+  [createFlowSuccess]: (state, payload) => {
+    const updatedDevices = [ { uuid: payload.flowId }, ...state.devices ]
+
+    return { ...state, creating: false, devices: updatedDevices }
+  },
+  [createFlowFailure]: (state, payload) => {
+    return { ...state, creating: false, error: payload }
   },
   [deleteFlowRequest]: (state, payload) => {
     const { deleting } = state

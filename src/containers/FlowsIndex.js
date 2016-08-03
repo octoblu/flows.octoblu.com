@@ -5,14 +5,15 @@ import { connect } from 'react-redux'
 import View from 'react-flexbox'
 import Page from 'zooid-page'
 
-import deleteFlow from '../actions/deleteFlow'
-import createFlow from '../actions/createFlow'
+import deleteFlow from '../actions/delete-flow'
+import createFlow from '../actions/create-flow'
 import FlowList from '../components/FlowList'
 import FlowIndexHeader from '../components/FlowIndexHeader'
 import FlowIndexSidebar from '../components/FlowIndexSidebar'
 import { getMeshbluConfig } from '../services/auth-service'
 
 const propTypes = {
+  creating: PropTypes.bool,
   dispatch: PropTypes.func,
   error: PropTypes.object,
   fetching: PropTypes.bool,
@@ -42,7 +43,7 @@ class FlowsIndex extends React.Component {
   }
 
   render() {
-    const { flows, error, fetching, onCreateFlow, onDeleteFlow } = this.props
+    const { creating, error, fetching, flows, onCreateFlow, onDeleteFlow } = this.props
 
     if (fetching) return <Page loading />
     if (error) return <Page error={error} />
@@ -51,7 +52,7 @@ class FlowsIndex extends React.Component {
     return (
       <Page>
         <View column>
-          <FlowIndexHeader onCreateFlow={onCreateFlow} />
+          <FlowIndexHeader onCreateFlow={onCreateFlow} creatingFlow={creating} />
 
           <View row>
             <FlowList flows={flows} onDeleteFlow={onDeleteFlow}/>
@@ -67,12 +68,13 @@ FlowsIndex.propTypes    = propTypes
 FlowsIndex.defaultProps = defaultProps
 
 const mapStateToProps = ({ flows }) => {
-  const { devices, error, fetching } = flows
+  const { creating, devices, error, fetching } = flows
 
   return {
-    flows: devices,
+    creating,
     error,
     fetching,
+    flows: devices,
   }
 }
 

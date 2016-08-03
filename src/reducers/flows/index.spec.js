@@ -4,13 +4,14 @@ import { searchActions } from 'redux-meshblu'
 import {
   createFlowRequest,
   createFlowSuccess,
-  createFlowFailure
-} from '../../actions/createFlow/'
+  createFlowFailure,
+} from '../../actions/create-flow/'
+
 import {
   deleteFlowRequest,
   deleteFlowSuccess,
-  deleteFlowFailure
-} from '../../actions/deleteFlow/'
+  deleteFlowFailure,
+} from '../../actions/delete-flow/'
 
 import reducer from './'
 
@@ -28,29 +29,31 @@ describe('Flows Reducer', () => {
     ).to.deep.equal(initialState)
   })
 
-  it('should handle fetching request', () => {
-    expect(
-      reducer(undefined, { type: searchActions.searchRequest.getType() })
-    ).to.deep.equal({ ...initialState, fetching: true})
-  })
+  describe('fetchFlow', () => {
+    it('should handle fetching request', () => {
+      expect(
+        reducer(undefined, { type: searchActions.searchRequest.getType() })
+      ).to.deep.equal({ ...initialState, fetching: true})
+    })
 
-  it('should handle GET_FLOWS_SUCCESS', () => {
-    const devices = [
-      { uuid: 'my-flows-uuid' },
-      { uuid: 'my-flows2-uuid'}
-    ]
+    it('should handle fetching success', () => {
+      const devices = [
+        { uuid: 'my-flows-uuid' },
+        { uuid: 'my-flows2-uuid'}
+      ]
 
-    expect(reducer(undefined, {
-      type: searchActions.searchSuccess.getType(),
-      payload: devices
-    })).to.deep.equal({...initialState, devices })
-  })
+      expect(reducer(undefined, {
+        type: searchActions.searchSuccess.getType(),
+        payload: devices
+      })).to.deep.equal({...initialState, devices })
+    })
 
-  it('should handle GET_FLOWS_FAILURE', () => {
-    expect(reducer(undefined, {
-      type: searchActions.searchFailure.getType(),
-      payload: new Error('Bang!')
-    })).to.deep.equal({...initialState, error: new Error('Bang!') })
+    it('should handle fetching failure', () => {
+      expect(reducer(undefined, {
+        type: searchActions.searchFailure.getType(),
+        payload: new Error('Bang!')
+      })).to.deep.equal({...initialState, error: new Error('Bang!') })
+    })
   })
 
   describe('createFlow', () => {
@@ -61,9 +64,51 @@ describe('Flows Reducer', () => {
     })
 
     it('should handle createFlowSuccess', () => {
-      expect(
-        reducer({ ...initialState, creating: true }, { type: createFlowSuccess })
-      ).to.deep.equal({ ...initialState, creating: false })
+      const state = {
+        ...initialState,
+        creating: true,
+        devices: [
+          { uuid: 'flow-uuid-1' },
+          { uuid: 'flow-uuid-2' },
+        ]
+      }
+
+      const expectedState = {
+        ...initialState,
+        creating: false,
+        devices: [
+          { uuid: 'flow-uuid-0' },
+          { uuid: 'flow-uuid-1' },
+          { uuid: 'flow-uuid-2' },
+        ]
+      }
+
+      expect(reducer(state, {
+        type: createFlowSuccess,
+        payload: { flowId: 'flow-uuid-0' }
+      })).to.deep.equal(expectedState)
+    })
+
+    it('should handle createFlowFailure', () => {
+      const state = {
+        ...initialState,
+        creating: true,
+        devices: [
+          { uuid: 'flow-uuid-1' },
+          { uuid: 'flow-uuid-2' },
+        ]
+      }
+
+      const expectedState = {
+        ...state,
+        creating: false,
+        error: new Error('cats!')
+      }
+
+      expect(reducer(state, {
+        type: createFlowFailure,
+        payload: new Error('cats!')
+      })).to.deep.equal(expectedState)
     })
   })
 

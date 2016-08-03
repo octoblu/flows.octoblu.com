@@ -7,14 +7,25 @@ import Heading from 'zooid-heading'
 import styles from './styles.css'
 
 const propTypes = {
+  creatingFlow: PropTypes.bool,
   onCreateFlow: PropTypes.func,
 }
 
 const defaultProps = {
+  creatingFlow: false,
   onCreateFlow: _.noop,
 }
 
-const FlowIndexHeader = ({ onCreateFlow }) => {
+
+const FlowIndexHeader = ({ creatingFlow, onCreateFlow }) => {
+  const createFlowButton = React.createElement(Button, {
+    onClick: onCreateFlow,
+    kind: 'primary',
+    name: 'createFlow',
+    disabled: creatingFlow,
+    children: creatingFlow ? 'Creating...' : 'New Flow'
+  })
+
   return (
     <Heading level={3} className={styles.root}>
       <div className={styles.headerTextWrap}>
@@ -22,7 +33,7 @@ const FlowIndexHeader = ({ onCreateFlow }) => {
         Flows
       </div>
 
-      <Button onClick={onCreateFlow} kind="primary" name="createFlow">Add a Flow</Button>
+      {createFlowButton}
     </Heading>
   )
 }
