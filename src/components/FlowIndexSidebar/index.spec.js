@@ -34,4 +34,16 @@ describe('<FlowIndexSidebar />', () => {
       expect(allFlowsFilterLink).to.have.className(styles.activeFilter)
     })
   })
+
+  describe('when onFilterFlows prop is passed in', () => {
+    it('should be called with query when search input value changes', () => {
+      const handleFilter = sinon.stub()
+      const sut = mount(<FlowIndexSidebar onFilterFlows={handleFilter} />)
+      const searchInput = sut.find('[name="searchInput"]')
+      searchInput.simulate('change', { target: { value: 'asdf' }})
+
+
+      expect(handleFilter).to.have.been.calledWith('asdf')
+    })
+  })
 })

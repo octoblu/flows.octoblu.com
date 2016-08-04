@@ -5,11 +5,14 @@ import { connect } from 'react-redux'
 import View from 'react-flexbox'
 import Page from 'zooid-page'
 
-import deleteFlow from '../actions/delete-flow'
 import createFlow from '../actions/create-flow'
+import deleteFlow from '../actions/delete-flow'
+import filterFlows from '../actions/filter-flows'
+
 import FlowList from '../components/FlowList'
 import FlowIndexHeader from '../components/FlowIndexHeader'
 import FlowIndexSidebar from '../components/FlowIndexSidebar'
+
 import { getMeshbluConfig } from '../services/auth-service'
 
 const propTypes = {
@@ -21,6 +24,7 @@ const propTypes = {
   location: PropTypes.object,
   onCreateFlow: PropTypes.func,
   onDeleteFlow: PropTypes.func,
+  onFilterFlows: PropTypes.func,
   search: PropTypes.func,
 }
 
@@ -35,12 +39,19 @@ class FlowsIndex extends React.Component {
 
   componentDidMount() {
     const meshbluConfig = getMeshbluConfig()
-    const searchQuery = {
+    const query = {
       type: 'octoblu:flow',
       owner: meshbluConfig.uuid,
     }
 
-    this.props.search({searchQuery}, meshbluConfig)
+    const projection = {
+      draft: true,
+      uuid: true,
+      name: true,
+      online: true,
+    }
+
+    this.props.search({ query, projection }, meshbluConfig)
   }
 
   render() {
@@ -52,6 +63,7 @@ class FlowsIndex extends React.Component {
       location: { query },
       onCreateFlow,
       onDeleteFlow,
+      onFilterFlows,
     } = this.props
 
     if (fetching) return <Page loading />
@@ -61,11 +73,17 @@ class FlowsIndex extends React.Component {
     return (
       <Page>
         <View column>
-          <FlowIndexHeader onCreateFlow={onCreateFlow} creatingFlow={creating} />
+          <FlowIndexHeader
+            onCreateFlow={onCreateFlow}
+            creatingFlow={creating}
+          />
 
           <View row>
             <FlowList flows={flows} onDeleteFlow={onDeleteFlow}/>
-            <FlowIndexSidebar filteringFlows={!!query.online} />
+            <FlowIndexSidebar
+              filteringFlows={!!query.online}
+              onFilterFlows={onFilterFlows}
+            />
           </View>
         </View>
       </Page>
@@ -94,13 +112,10 @@ const mapStateToProps = ({ flows }, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDeleteFlow: (uuid) => {
-      dispatch(deleteFlow(uuid))
-    },
     onCreateFlow: () => dispatch(createFlow()),
-    search: (query, meshbluConfig) => {
-      dispatch(search(query, meshbluConfig))
-    }
+    onDeleteFlow: (uuid) => dispatch(deleteFlow(uuid)),
+    onFilterFlows: (query) => dispatch(filterFlows(query)),
+    search: (query, meshbluConfig) => dispatch(search(query, meshbluConfig)),
   }
 }
 

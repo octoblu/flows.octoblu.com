@@ -23,7 +23,11 @@ const FlowList = ({flows, onDeleteFlow}) => {
     return <FlowListItem flow={flow} key={flow.uuid} onDeleteFlow={onDeleteFlow}/>
   })
 
-  return <div className={styles.flowList}>{flowItems}</div>
+  return (
+    <div className={styles.flowList}>
+      {flowItems}
+    </div>
+  )
 }
 
 FlowList.propTypes    = propTypes

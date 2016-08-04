@@ -2,11 +2,15 @@ import chai, { expect } from 'chai'
 import chaiEnzyme from 'chai-enzyme'
 import { shallow } from 'enzyme'
 import React from 'react'
+import RevealMenuIcon from 'react-icons/lib/md/more-vert'
+import ShareIcon from 'react-icons/lib/md/share'
 import { Link } from 'react-router'
 import sinonChai from 'sinon-chai'
 import Button from 'zooid-button'
 
 import { OCTOBLU_URL } from 'config'
+
+import styles from './styles.css'
 
 import FlowListItem from './'
 import DeviceOnlineIndicator from '../DeviceOnlineIndicator'
@@ -33,10 +37,8 @@ describe('<FlowListItem />', () => {
         name: 'Flow 007',
         type: 'octoblu:flow',
         online: true,
-        flow: {
-          description: 'lorem description',
-        },
         draft: {
+          description: 'lorem description',
           nodes: [
             {
               category: 'device',
@@ -72,22 +74,21 @@ describe('<FlowListItem />', () => {
       expect(sut).to.have.state('isMenuVisible', false)
     })
 
-    it('should render a share button', () => {
-      expect(sut).to.contain(<Button kind="hollow-neutral" size="small">Share</Button>)
-    })
-
     it('should render Design link', () => {
       expect(sut).to.contain(
-        <a href={`${OCTOBLU_URL}/design/${flow.uuid}`}>Flow 007</a>
+        <Button
+          href={`${OCTOBLU_URL}/design/007`}
+          size="large"
+          kind="no-style"
+          className={styles.flowName}
+        >
+          Flow 007
+        </Button>
       )
     })
 
     it('should render flow online status', () => {
       expect(sut).to.contain(<DeviceOnlineIndicator online />)
-    })
-
-    it('should render tags for the flow', () => {
-      expect(sut).to.contain(<FlowTags nodes={flow.draft.nodes} />)
     })
 
     describe('when revealMenuButton is clicked', () => {

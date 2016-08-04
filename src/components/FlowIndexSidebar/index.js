@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
-import Button from 'zooid-button'
 import Input from 'zooid-input'
 
 import styles from './styles.css'
@@ -9,16 +8,22 @@ import styles from './styles.css'
 
 const propTypes = {
   filteringFlows: PropTypes.bool,
+  onFilterFlows: PropTypes.func,
 }
 
 const defaultProps = {
   filteringFlows: false
 }
 
-const FlowIndexSidebar = ({ filteringFlows }) => {
+const FlowIndexSidebar = ({ filteringFlows, onFilterFlows }) => {
   return (
     <div className={styles.root}>
-      <Input type="search" name="seachFlows" placeholder="Search..." />
+      <Input
+        type="search"
+        name="searchInput"
+        placeholder="Search..."
+        onChange={({target: {value}}) => onFilterFlows(value)}
+      />
 
       <div className={styles.filters}>
         <Link

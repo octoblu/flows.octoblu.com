@@ -1,5 +1,5 @@
 .menu {
-  width: 150px;
+  width: 164px;
   background: #FFF;
   border: 1px solid rgba(0,0,0,0.12);
   border-radius: 2px;
@@ -9,15 +9,15 @@
 }
 
 .menu > * {
+  color: #6e798b;
+  font-size: 14px;
   display: block;
-  border-bottom: 1px solid #e8e8e8;
   width: 100%;
 }
 
 .menu > *:hover {
-  /*background: rgba(232, 243, 252, 0.36);*/
-  background: #14568F;
-  color: #FFF
+  background: rgba(0, 0, 0, 0.05);
+  color: #48505d;
 }
 
 .menu > *:last-child {

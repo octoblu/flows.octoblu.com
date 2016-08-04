@@ -12,17 +12,14 @@
 
 .header {
   display: flex;
-  align-items:flex-start;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 1em;
 }
 
-.nameWrapper {
-  flex: 1;
-}
-
 .actions > * {
-  margin-left: 0.5em;
+  margin-left: 0;
+  padding: 0 0.5em;
 }
 
 .tags {
@@ -31,6 +28,15 @@
 
 .flowMenu {
   position: absolute;
-  top: 54px;
+  top: 44px;
   right: 15px;
 }
+
+.flowName {
+  font-size: 18px;
+  padding: 0;
+}
+
+ .actionIcon {
+   padding: 0;
+ }

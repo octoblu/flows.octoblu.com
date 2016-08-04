@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import React, { PropTypes } from 'react'
-import { Link } from 'react-router'
 import Button from 'zooid-button'
 import {OCTOBLU_URL} from 'config'
 import RevealMenuIcon from 'react-icons/lib/md/more-vert'
@@ -9,7 +8,7 @@ import styles from './styles.css'
 
 import DeviceOnlineIndicator from '../DeviceOnlineIndicator'
 import FlowMenu from '../FlowMenu'
-import FlowTags from '../FlowTags'
+import FlowItemMain from '../FlowItemMain'
 
 class FlowListItem extends React.Component {
 
@@ -45,23 +44,30 @@ class FlowListItem extends React.Component {
     const { isMenuVisible } = this.state
     const { draft, name, online, uuid } = flow
 
+
+
     return (
       <div className={styles.flowCard}>
         <header className={styles.header}>
-          <div className={styles.nameWrapper}>
-            <a href={`${OCTOBLU_URL}/design/${uuid}`}>{name || `Flow ${_.first(uuid.split('-'))}`}</a>
+          <div>
+            <Button
+              href={`${OCTOBLU_URL}/design/${uuid}`}
+              size="large"
+              kind="no-style"
+              className={styles.flowName}
+            >
+              {name || `Flow ${_.first(uuid.split('-'))}`}
+            </Button>
             <DeviceOnlineIndicator online={online} />
           </div>
-
           <div className={styles.actions}>
-            <Button kind="hollow-neutral" size="small">Share</Button>
             <Button
-              kind="hollow-neutral"
+              kind="no-style"
               onClick={this.toggleMenuVisibility}
               name="revealMenuButton"
               size="small"
             >
-              More
+              <RevealMenuIcon className={styles.actionIcon} size={24} />
             </Button>
 
             <FlowMenu
@@ -70,22 +76,14 @@ class FlowListItem extends React.Component {
               className={styles.flowMenu}
             >
               <Button kind="no-style">View Detail</Button>
+              <Button kind="no-style">Share</Button>
               <Button kind="no-style">Publish IoT App</Button>
               <Button kind="no-style" onClick={this.handleDelete}>Delete</Button>
             </FlowMenu>
           </div>
         </header>
 
-        {
-          draft &&
-          (
-            <div>
-              <div>{draft.description}</div>
-              <FlowTags nodes={draft.nodes} />
-            </div>
-          )
-
-        }
+        <FlowItemMain draft={draft} />
       </div>
     )
   }

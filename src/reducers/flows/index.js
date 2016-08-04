@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import { createReducer } from 'redux-act'
 import { searchActions } from 'redux-meshblu'
+
+import filterFlows from '../../actions/filter-flows/'
 import { createFlowRequest, createFlowSuccess, createFlowFailure } from '../../actions/create-flow/'
 import { deleteFlowRequest, deleteFlowSuccess, deleteFlowFailure } from '../../actions/delete-flow/'
 
@@ -11,6 +13,7 @@ const initialState = {
   error: null,
   fetching: false,
   deleting: [],
+  filteredDevices: [],
 }
 
 export default createReducer({
@@ -43,6 +46,17 @@ export default createReducer({
     const deletingList = _.reject(deleting, (deletingUuid) =>  deletingUuid === payload)
 
     return { ...state, deleting: deletingList, error: new Error(`Could not delete flow - ${payload}`) }
+  },
+  [filterFlows]: (state, payload) => {
+    const { devices } = state
+
+    payload = _.toLower(_.trim(payload))
+
+    const filteredDevices = _.filter(devices, (device) => {
+      return (device.uuid.indexOf(payload) !== -1)
+    })
+
+    return { ...state, filteredDevices }
   },
   [searchRequest]: () => ({...initialState, fetching: true}),
   [searchSuccess]: (state, payload) => ({...initialState, devices: payload, fetching: false}),

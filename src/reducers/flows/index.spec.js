@@ -13,14 +13,17 @@ import {
   deleteFlowFailure,
 } from '../../actions/delete-flow/'
 
+import filterFlow from '../../actions/filter-flows'
+
 import reducer from './'
 
 describe('Flows Reducer', () => {
   const initialState = {
+    deleting: [],
     devices: null,
     error: null,
     fetching: false,
-    deleting: [],
+    filteredDevices: [],
   }
 
   it('should return the initial state', () => {
@@ -53,6 +56,42 @@ describe('Flows Reducer', () => {
         type: searchActions.searchFailure.getType(),
         payload: new Error('Bang!')
       })).to.deep.equal({...initialState, error: new Error('Bang!') })
+    })
+  })
+
+  describe('filterFlow', () => {
+    it('should handle filter flow', () => {
+      const currentState = {
+        ...initialState,
+        devices: [
+          {
+            uuid: 'fancy-1',
+            name: 'Fancy 1',
+          },
+          {
+            uuid: 'fancy-34',
+            name: 'Fancy 34',
+          },
+          {
+            uuid: 'fancy-12',
+            name: 'Fancy 12',
+          },
+        ],
+        filteredDevices: []
+      }
+
+      expect(reducer(currentState, {
+        type: filterFlow.getType(),
+        payload: '34',
+      })).to.deep.equal({
+        ...currentState,
+        filteredDevices: [
+          {
+            uuid: 'fancy-34',
+            name: 'Fancy 34',
+          },
+        ]
+      })
     })
   })
 
