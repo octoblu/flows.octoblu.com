@@ -14,6 +14,7 @@ const initialState = {
   fetching: false,
   deleting: [],
   filteredDevices: [],
+  filterQuery: '',
 }
 
 export default createReducer({
@@ -53,10 +54,14 @@ export default createReducer({
     payload = _.toLower(_.trim(payload))
 
     const filteredDevices = _.filter(devices, (device) => {
+      if (device.name && device.name.indexOf(payload) !== -1) {
+        return (device.name.indexOf(payload) !== -1)
+      }
+
       return (device.uuid.indexOf(payload) !== -1)
     })
 
-    return { ...state, filteredDevices }
+    return { ...state, filterQuery: payload, filteredDevices }
   },
   [searchRequest]: () => ({...initialState, fetching: true}),
   [searchSuccess]: (state, payload) => ({...initialState, devices: payload, fetching: false}),

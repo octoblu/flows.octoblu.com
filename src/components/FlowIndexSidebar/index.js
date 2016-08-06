@@ -21,6 +21,7 @@ const FlowIndexSidebar = ({ filteringFlows, onFilterFlows }) => {
       <Input
         type="search"
         name="searchInput"
+        autoFocus
         placeholder="Search..."
         onChange={({target: {value}}) => onFilterFlows(value)}
       />

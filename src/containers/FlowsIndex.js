@@ -96,7 +96,11 @@ FlowsIndex.defaultProps = defaultProps
 
 const mapStateToProps = ({ flows }, props) => {
   const {location: { query }} = props
-  let { creating, devices, error, fetching } = flows
+  let { creating, devices, error, fetching, filterQuery, filteredDevices } = flows
+
+  if (filterQuery.length > 0) {
+    devices = filteredDevices
+  }
 
   if (query.online) {
     devices = _.filter(devices, {'online': (query.online === 'true')})

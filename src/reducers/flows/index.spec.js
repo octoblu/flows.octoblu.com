@@ -24,6 +24,7 @@ describe('Flows Reducer', () => {
     error: null,
     fetching: false,
     filteredDevices: [],
+    filterQuery: '',
   }
 
   it('should return the initial state', () => {
@@ -85,6 +86,7 @@ describe('Flows Reducer', () => {
         payload: '34',
       })).to.deep.equal({
         ...currentState,
+        filterQuery: '34',
         filteredDevices: [
           {
             uuid: 'fancy-34',
