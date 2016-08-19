@@ -12,19 +12,19 @@ const defaultProps = {
   online: false
 }
 
-const DeviceOnlineIndicator = ({online}) => {
+const DeviceOnlineIndicator = ({ online }) => {
   if (online) {
     return (
-      <div className={styles.indicator}>
+      <span className={styles.indicator}>
         <FaCircle className={styles.onlineIcon}/>Online
-      </div>
+      </span>
     )
   }
 
   return (
-    <div className={styles.indicator}>
+    <span className={styles.indicator}>
       <FaCircleHollow className={styles.icon}/>Offline
-    </div>
+    </span>
   )
 }
 

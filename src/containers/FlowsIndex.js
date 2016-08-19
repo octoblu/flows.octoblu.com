@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import React, { PropTypes } from 'react'
-import { search } from 'redux-meshblu'
-import { connect } from 'react-redux'
 import View from 'react-flexbox'
+import { connect } from 'react-redux'
+import { search } from 'redux-meshblu'
+import ErrorState from 'zooid-error-state'
 import Page from 'zooid-page'
 
 import createFlow from '../actions/create-flow'
@@ -10,8 +11,8 @@ import deleteFlow from '../actions/delete-flow'
 import filterFlows from '../actions/filter-flows'
 
 import FlowList from '../components/FlowList'
-import FlowIndexHeader from '../components/FlowIndexHeader'
 import FlowIndexSidebar from '../components/FlowIndexSidebar'
+import FlowsIndexLayout from '../components/FlowsIndexLayout'
 
 import { getMeshbluConfig } from '../services/auth-service'
 
@@ -49,6 +50,8 @@ class FlowsIndex extends React.Component {
       uuid: true,
       name: true,
       online: true,
+      'meshblu.createdAt': true,
+      'meshblu.updatedAt': true,
     }
 
     this.props.search({ query, projection }, meshbluConfig)
@@ -66,27 +69,44 @@ class FlowsIndex extends React.Component {
       onFilterFlows,
     } = this.props
 
-    if (fetching) return <Page loading />
-    if (error) return <Page error={error} />
-    if (_.isEmpty(flows)) return <Page>You have no Flows</Page>
+    const flowIndexLayoutProps = {
+      onCreateFlow,
+      creatingFlow: creating
+    }
+
+    if (fetching) return (
+      <FlowsIndexLayout {...flowIndexLayoutProps}>
+        <Page loading />
+      </FlowsIndexLayout>
+    )
+
+    if (error) return (
+      <FlowsIndexLayout {...flowIndexLayoutProps}>
+        <ErrorState
+          title="Oops... Something went wrong."
+          description={error.message}
+        />
+      </FlowsIndexLayout>
+    )
+
+    if (_.isEmpty(flows)) return (
+      <FlowsIndexLayout {...flowIndexLayoutProps}>
+        <ErrorState
+          title="Darn, you don't have any Flows."
+          description="Hang on... We've made it very easy to create one."
+          buttonText="Create Flow"
+          onClick={onCreateFlow}
+        />
+      </FlowsIndexLayout>
+    )
 
     return (
-      <Page>
-        <View column>
-          <FlowIndexHeader
-            onCreateFlow={onCreateFlow}
-            creatingFlow={creating}
-          />
-
-          <View row>
-            <FlowList flows={flows} onDeleteFlow={onDeleteFlow}/>
-            <FlowIndexSidebar
-              filteringFlows={!!query.online}
-              onFilterFlows={onFilterFlows}
-            />
-          </View>
+      <FlowsIndexLayout {...flowIndexLayoutProps}>
+        <View row>
+          <FlowList flows={flows} onDeleteFlow={onDeleteFlow} />
+          <FlowIndexSidebar filteringFlows={!!query.online} onFilterFlows={onFilterFlows} />
         </View>
-      </Page>
+      </FlowsIndexLayout>
     )
   }
 }
@@ -95,16 +115,18 @@ FlowsIndex.propTypes    = propTypes
 FlowsIndex.defaultProps = defaultProps
 
 const mapStateToProps = ({ flows }, props) => {
-  const {location: { query }} = props
-  let { creating, devices, error, fetching, filterQuery, filteredDevices } = flows
+  const { query } = props.location
+  let {
+    creating,
+    devices,
+    error,
+    fetching,
+    filteredDevices,
+    filterQuery,
+  } = flows
 
-  if (filterQuery.length > 0) {
-    devices = filteredDevices
-  }
-
-  if (query.online) {
-    devices = _.filter(devices, {'online': (query.online === 'true')})
-  }
+  if (filterQuery.length > 0) devices = filteredDevices
+  if (query.online) devices = _.filter(devices, {'online': (query.online === 'true')})
 
   return {
     creating,

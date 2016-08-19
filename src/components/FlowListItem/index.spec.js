@@ -37,6 +37,9 @@ describe('<FlowListItem />', () => {
         name: 'Flow 007',
         type: 'octoblu:flow',
         online: true,
+        meshblu: {
+          updatedAt: null,
+        },
         draft: {
           description: 'lorem description',
           nodes: [

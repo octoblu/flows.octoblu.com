@@ -18,6 +18,8 @@ const defaultProps = {
 
 
 const FlowIndexHeader = ({ creatingFlow, onCreateFlow }) => {
+  console.log('creatingFlow', creatingFlow)
+
   const createFlowButton = React.createElement(Button, {
     onClick: onCreateFlow,
     kind: 'primary',

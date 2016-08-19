@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react'
 import Button from 'zooid-button'
 import {OCTOBLU_URL} from 'config'
 import RevealMenuIcon from 'react-icons/lib/md/more-vert'
+import moment from 'moment'
 
 import styles from './styles.css'
 
@@ -26,13 +27,17 @@ class FlowListItem extends React.Component {
     isMenuVisible: false,
   }
 
-  toggleMenuVisibility = () => {
+  toggleMenuVisibility = (event) => {
+    event.preventDefault()
+
     this.setState({
       isMenuVisible: !this.state.isMenuVisible,
     })
   }
 
-  handleDelete = () => {
+  handleDelete = (event) => {
+    event.preventDefault()
+
     const { flow, onDeleteFlow } = this.props
     onDeleteFlow(flow.uuid)
   }
@@ -42,32 +47,23 @@ class FlowListItem extends React.Component {
     if (_.isEmpty(flow)) return null
 
     const { isMenuVisible } = this.state
-    const { draft, name, online, uuid } = flow
-
-
+    const { draft, name, online, uuid, meshblu } = flow
+    const { updatedAt } = meshblu
 
     return (
-      <div className={styles.flowCard}>
-        <header className={styles.header}>
-          <div>
-            <Button
-              href={`${OCTOBLU_URL}/design/${uuid}`}
-              size="large"
-              kind="no-style"
-              className={styles.flowName}
-            >
-              {name || `Flow ${_.first(uuid.split('-'))}`}
-            </Button>
-            <DeviceOnlineIndicator online={online} />
-          </div>
+      <a href={`${OCTOBLU_URL}/design/${uuid}`} className={styles.flowCard}>
+        <div className={styles.title}>
+          <span>{name || `Flow ${_.first(uuid.split('-'))}`}</span>
+
           <div className={styles.actions}>
             <Button
               kind="no-style"
               onClick={this.toggleMenuVisibility}
               name="revealMenuButton"
               size="small"
+              className={styles.actionButton}
             >
-              <RevealMenuIcon className={styles.actionIcon} size={24} />
+              <RevealMenuIcon size={21} />
             </Button>
 
             <FlowMenu
@@ -81,10 +77,18 @@ class FlowListItem extends React.Component {
               <Button kind="no-style" onClick={this.handleDelete}>Delete</Button>
             </FlowMenu>
           </div>
-        </header>
+        </div>
+
+        <div className={styles.subTitle}>
+          <DeviceOnlineIndicator online={online} />
+          {
+            (!_.isEmpty(updatedAt)) &&
+            <span>Updated {moment(updatedAt).fromNow()}</span>
+          }
+        </div>
 
         <FlowItemMain draft={draft} />
-      </div>
+      </a>
     )
   }
 }

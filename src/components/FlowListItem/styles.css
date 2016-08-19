@@ -3,23 +3,44 @@
   flex-direction: column;
   justify-content: space-between;
   border-bottom: 1px solid #EAEDEF;
-  background: #FFF;
   width: 100%;
-  padding: 0;
+  padding: 1em;
   box-shadow: none;
   position: relative;
+  color: #485264;
+  text-decoration: none;
+  background: #FFF;
 }
 
-.header {
+.flowCard:hover {
+  color: #0068c1;
+}
+
+.title {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
-  padding: 1em;
+  line-height: 2em;
+  font-size: 16px;
+  background: oldlace;
+}
+
+.subTitle {
+  display: flex;
+  justify-content: flex-start;
+
+  color: #adb7bf;
+  font-size: 12px;
+  line-height: 1.33em;
+}
+
+.actions {
+  background: purple;
 }
 
 .actions > * {
   margin-left: 0;
-  padding: 0 0.5em;
+  padding: 0 0 0.5em 0;
 }
 
 .tags {
@@ -30,11 +51,6 @@
   position: absolute;
   top: 44px;
   right: 15px;
-}
-
-.flowName {
-  font-size: 18px;
-  padding: 0;
 }
 
  .actionIcon {

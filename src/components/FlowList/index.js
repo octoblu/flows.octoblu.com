@@ -15,7 +15,7 @@ const defaultProps = {
 }
 
 const FlowList = ({flows, onDeleteFlow}) => {
-  if(_.isEmpty(flows)) return null
+  if (_.isEmpty(flows)) return null
 
   const flowItems = _.map(flows, flow => {
     if (flow.deleting) return null
