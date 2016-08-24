@@ -18,8 +18,6 @@ var paths = {
   appPackageJson: path.join(__dirname, '../', 'package.json'),
 }
 
-var Tasks = require('./tasks')
-
 // Input: /User/dan/app/build/static/js/main.82be8.js
 // Output: /static/js/main.js
 function removeFileNameHash(fileName) {
