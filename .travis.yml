@@ -6,11 +6,8 @@ branches:
   - "/^v[0-9]/"
 before_deploy:
 - npm run build
-addons:
-  code_climate:
-    repo_token: #get repo_token from https://codeclimate.com/dashboard
-before_script:
-- npm install -g codeclimate-test-reporter
-after_script:
+after_success:
 - npm run coverage
-- codeclimate-test-reporter < coverage/lcov.info
+- npm run mocha:json
+- bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.octoblu.com/bash)
