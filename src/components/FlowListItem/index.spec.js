@@ -1,10 +1,7 @@
 import chai, { expect } from 'chai'
 import chaiEnzyme from 'chai-enzyme'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import React from 'react'
-import RevealMenuIcon from 'react-icons/lib/md/more-vert'
-import ShareIcon from 'react-icons/lib/md/share'
-import { Link } from 'react-router'
 import sinonChai from 'sinon-chai'
 import Button from 'zooid-button'
 
@@ -14,7 +11,6 @@ import styles from './styles.css'
 
 import FlowListItem from './'
 import DeviceOnlineIndicator from '../DeviceOnlineIndicator'
-import FlowTags from '../FlowTags'
 
 chai.use(chaiEnzyme())
 chai.use(sinonChai)
@@ -70,7 +66,7 @@ describe('<FlowListItem />', () => {
           ]
         }
       }
-      sut = shallow(<FlowListItem flow={flow} />)
+      sut = mount(<FlowListItem flow={flow} />)
     })
 
     it('should set isMenuVisible state to false', () => {
@@ -78,16 +74,7 @@ describe('<FlowListItem />', () => {
     })
 
     it('should render Design link', () => {
-      expect(sut).to.contain(
-        <Button
-          href={`${OCTOBLU_URL}/design/007`}
-          size="large"
-          kind="no-style"
-          className={styles.flowName}
-        >
-          Flow 007
-        </Button>
-      )
+      expect(sut).to.contain(<span>Flow 007</span>)
     })
 
     it('should render flow online status', () => {
