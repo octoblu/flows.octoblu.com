@@ -1,6 +1,6 @@
 {
   "name": "flows",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "flows",
   "main": "index.js",
   "scripts": {
@@ -54,15 +54,15 @@
     "redux-logger": "^2.6.1",
     "redux-meshblu": "^2.0.0",
     "redux-thunk": "^2.1.0",
-    "zooid-button": "^1.1.3",
+    "zooid-button": "^1.2.3",
     "zooid-card": "^1.1.0",
-    "zooid-device-icon": "^1.0.6",
+    "zooid-device-icon": "^1.0.12",
     "zooid-error-state": "^1.2.1",
     "zooid-heading": "^1.0.8",
-    "zooid-input": "^2.2.0",
+    "zooid-input": "^2.3.2",
     "zooid-page": "^2.0.0",
-    "zooid-spinner": "^1.0.1",
-    "zooid-ui": "^8.0.0"
+    "zooid-spinner": "^1.0.2",
+    "zooid-ui": "^8.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
